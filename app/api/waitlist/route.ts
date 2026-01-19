@@ -10,7 +10,6 @@ export async function POST(request: Request) {
   try {
     const { email } = await request.json();
 
-    // Validate email
     if (!email || !email.includes('@')) {
       return NextResponse.json(
         { error: 'Invalid email address' }, 
@@ -18,7 +17,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Insert into Supabase
     const { data, error } = await supabase
       .from('waitlist')
       .insert([{ 
@@ -27,13 +25,13 @@ export async function POST(request: Request) {
       .select();
 
     if (error) {
-      // Handle duplicate email
       if (error.code === '23505') {
         return NextResponse.json(
           { error: 'already_exists' },
           { status: 409 }
         );
       }
+      console.error('Supabase error:', error);
       throw error;
     }
 
@@ -49,7 +47,6 @@ export async function POST(request: Request) {
   }
 }
 
-// GET endpoint - view all emails
 export async function GET() {
   try {
     const { data, error } = await supabase
