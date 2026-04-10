@@ -83,10 +83,10 @@ export const FAQ: React.FC = () => {
             Still have questions?
           </p>
           <a
-            href="mailto:support@pixelflip.com"
+            href="/contact"
             className="font-mono font-bold text-brand-primary hover:underline"
           >
-            support@pixelflip.com
+            Contact form
           </a>
         </div>
       </div>

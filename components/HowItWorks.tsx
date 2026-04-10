@@ -6,20 +6,20 @@ export const HowItWorks: React.FC = () => {
     {
       number: '1',
       title: 'Set Your Search',
-      description: 'Define what you\'re looking for and your target price. Monitor unlimited items across multiple marketplaces.',
-      icon: '🎯',
+      description: 'Define what you\'re looking for along with your target price. Monitor multiple items across multiple marketplaces.',
+      icon: '',
     },
     {
       number: '2',
-      title: 'We Scan 24/7',
+      title: 'Scan 24/7',
       description: 'Our system continuously monitors Craigslist, OfferUp, Mercari, and more. AI-powered filtering ensures quality results.',
-      icon: '🔍',
+      icon: '',
     },
     {
       number: '3',
       title: 'Get Notified',
       description: 'Receive instant alerts when deals matching your criteria appear. Act fast before anyone else.',
-      icon: '⚡',
+      icon: '',
     },
   ];
 

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { PixelButton } from './PixelButton';
 import { PixelBox } from './PixelBox';
+import { getDashboardSignupUrl } from '@/lib/site';
 
 export const Hero: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -54,8 +55,10 @@ export const Hero: React.FC = () => {
     }
   };
 
+  const dashboardSignup = getDashboardSignupUrl()
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
+    <section id="waitlist" className="relative min-h-screen flex items-center justify-center px-4 py-20 scroll-mt-24">
       {/* Animated background pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
@@ -91,9 +94,32 @@ export const Hero: React.FC = () => {
           Find Deals Before Anyone Else
         </p>
 
-        <p className="text-lg md:text-xl font-mono text-gray-300 mb-12 max-w-2xl mx-auto">
+        <p className="text-lg md:text-xl font-mono text-gray-300 mb-6 max-w-2xl mx-auto">
           Automated marketplace scanning for resellers and collectors. Never miss a deal again.
         </p>
+
+        <p className="text-sm font-mono text-gray-200 mb-4 max-w-xl mx-auto leading-relaxed">
+          The waitlist stays open for the full launch. Want in earlier? Pre-beta accounts get a{' '}
+          <span className="font-bold text-white">grandfathered monthly rate</span> while we ship core reliability—paid product only, currently no free tier.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10">
+          <a
+            href={dashboardSignup}
+            className="font-mono font-bold px-6 py-3 bg-white text-brand-primary border-2 border-brand-dark hover:bg-gray-100 transition text-center w-full sm:w-auto"
+            style={{
+              boxShadow: '0 0 0 3px #2D3748, 0 4px 0 0 #2D3748',
+            }}
+          >
+            Start pre-beta (dashboard signup)
+          </a>
+          <a
+            href="/pricing"
+            className="font-mono font-bold px-6 py-3 text-white border-2 border-white/80 hover:bg-white/10 transition text-center w-full sm:w-auto"
+          >
+            Compare plans
+          </a>
+        </div>
 
         {/* Waitlist form */}
         <PixelBox className="max-w-md mx-auto p-8" color="#764ba2">
@@ -133,11 +159,6 @@ export const Hero: React.FC = () => {
             </form>
           )}
         </PixelBox>
-
-        {/* Social proof placeholder */}
-        <p className="text-sm font-mono text-gray-300 mt-6">
-          Join <span className="font-bold text-brand-primary">500+</span> resellers finding deals daily
-        </p>
       </div>
     </section>
   );
