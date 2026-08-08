@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import { FAQ } from '@/components/FAQ'
+import { PAGE_BACKDROP } from '@/lib/backgrounds'
 
 export default function FaqPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ background: PAGE_BACKDROP.faq }}>
       <div className="px-4 pt-12">
         <div className="mx-auto max-w-4xl">
-          <p className="mb-6 font-mono text-sm font-bold text-brand-primary">
+          <p className="mb-6 font-mono text-sm font-bold text-white">
             <Link href="/" className="hover:underline">
               ← Home
             </Link>
@@ -17,7 +18,7 @@ export default function FaqPage() {
       <div className="px-4 pb-16 text-center">
         <Link
           href="/contact"
-          className="font-mono text-sm font-bold text-brand-primary hover:underline"
+          className="font-mono text-sm font-bold text-white hover:underline"
         >
           Still stuck? Contact us →
         </Link>

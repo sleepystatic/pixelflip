@@ -13,11 +13,11 @@ export const FAQ: React.FC = () => {
     },
     {
       question: 'What marketplaces do you support?',
-      answer: 'We currently scan Craigslist, OfferUp, Mercari, and Facebook Marketplace. We\'re constantly adding new platforms based on user feedback.',
+      answer: 'Every plan scans Craigslist, OfferUp and Mercari. Facebook Marketplace is included with Pro. We\'re constantly adding new platforms based on user feedback.',
     },
     {
       question: 'How fast are the notifications?',
-      answer: 'Notification speed depends on your plan. Basic users get updates every 30 minutes, Pro every 10 minutes, and Business every 5 minutes. All notifications are sent instantly once a scan completes.',
+      answer: 'Notification speed depends on your plan. Basic scans every 10 minutes and Pro every 5 minutes. All notifications are sent as soon as a scan completes.',
     },
     {
       question: 'Can I change my plan later?',
@@ -37,18 +37,23 @@ export const FAQ: React.FC = () => {
     },
     {
       question: 'What if I need help?',
-      answer: 'All plans include email support. Pro and Business plans get priority support with faster response times. We also have comprehensive documentation and video tutorials.',
+      answer: 'All plans include email support at support@pixelflip.app. Pro gets priority support with faster response times.',
     },
   ];
 
+  // Transparent so the page's backdrop shows through — this component is only
+  // used on /faq, which now owns the background.
   return (
-    <section className="py-20 px-4 bg-gray-50">
+    <section className="py-20 px-4">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold font-mono text-center mb-4 text-brand-dark">
+        <h2
+          className="text-4xl md:text-5xl font-bold font-mono text-center mb-4"
+          style={{ color: '#2D3748', textShadow: '4px 4px 0 rgba(118,75,162,0.3)' }}
+        >
           FAQ
         </h2>
-        <p className="text-center text-gray-600 font-mono mb-16">
-          Got questions? We've got answers.
+        <p className="text-center text-gray-100 font-mono mb-16">
+          Got questions? We&apos;ve got answers.
         </p>
 
         <div className="space-y-4">
@@ -79,12 +84,12 @@ export const FAQ: React.FC = () => {
 
         {/* Still have questions */}
         <div className="text-center mt-12">
-          <p className="font-mono text-gray-600 mb-4">
+          <p className="font-mono text-gray-100 mb-4">
             Still have questions?
           </p>
           <a
             href="/contact"
-            className="font-mono font-bold text-brand-primary hover:underline"
+            className="font-mono font-bold text-white hover:underline"
           >
             Contact form
           </a>

@@ -1,81 +1,43 @@
 import Link from 'next/link'
 import { PixelBox } from '@/components/PixelBox'
 import { getDashboardSignupUrl } from '@/lib/site'
-
-const plans = [
-  {
-    name: 'Starter',
-    price: '$9.99',
-    period: 'per month',
-    blurb: 'Placeholder — tune limits and price before launch.',
-    features: [
-      'Core marketplace scanning (pre-beta coverage)',
-      'Email alerts',
-      'A capped number of active watches',
-      'Standard refresh interval (plan-dependent)',
-    ],
-    color: '#667eea',
-    popular: false,
-  },
-  {
-    name: 'Pro',
-    price: '$29.99',
-    period: 'per month',
-    blurb: 'Placeholder — your main tier for serious flippers.',
-    features: [
-      'Higher watch and keyword limits',
-      'Faster refresh vs Starter',
-      'Priority email support',
-      'Room for analytics / history as we ship them',
-    ],
-    color: '#764ba2',
-    popular: true,
-  },
-  {
-    name: 'Business',
-    price: '$49.99',
-    period: 'per month',
-    blurb: 'Placeholder — teams and power sellers.',
-    features: [
-      'Highest limits on watches and throughput',
-      'Fastest refresh tier',
-      'Webhook / export goals on the roadmap',
-      'Best-effort support during pre-beta',
-    ],
-    color: '#2D3748',
-    popular: false,
-  },
-]
+import { plans, PREBETA_ACTIVE } from '@/lib/pricing'
+import { PAGE_BACKDROP } from '@/lib/backgrounds'
 
 export default function PricingPage() {
   const signup = getDashboardSignupUrl()
 
   return (
-    <div className="min-h-screen bg-white px-4 py-16">
+    <div className="min-h-screen px-4 py-16" style={{ background: PAGE_BACKDROP.pricing }}>
       <div className="mx-auto max-w-7xl">
-        <p className="mb-4 font-mono text-sm font-bold text-brand-primary">
+        <p className="mb-4 font-mono text-sm font-bold text-white">
           <Link href="/" className="hover:underline">
             ← Home
           </Link>
         </p>
 
-        <h1 className="mb-4 text-center font-mono text-4xl font-bold text-brand-dark md:text-5xl">
+        <h1
+          className="mb-4 text-center font-mono text-4xl font-bold md:text-5xl"
+          style={{ color: '#2D3748', textShadow: '4px 4px 0 rgba(118,75,162,0.3)' }}
+        >
           Pricing
         </h1>
-        <p className="mx-auto mb-4 max-w-2xl text-center font-mono text-gray-600">
-          <span className="font-bold text-brand-primary">
-            No free plan right now
-          </span>
-          — PixelFlip is paid software. Full launch stays waitlisted while we harden
-          the scrapers; pre-beta signups lock in a{' '}
-          <span className="font-bold text-brand-dark">grandfathered monthly price</span>.
-        </p>
-        <p className="mx-auto mb-12 max-w-2xl text-center font-mono text-sm text-gray-500">
-          Figures below are placeholders. Replace with your real SKUs before you
-          advertise publicly.
-        </p>
 
-        <div className="mb-12 grid gap-8 md:grid-cols-3">
+        {PREBETA_ACTIVE && (
+          <div className="mb-10 text-center">
+            <p className="font-mono text-sm font-bold text-white">
+              Pre-beta pricing — half off until pre-beta ends.
+            </p>
+            <p className="mt-1 font-mono text-sm text-gray-100">
+              Join now and you keep this rate after launch, for as long as your
+              subscription stays active.
+            </p>
+          </div>
+        )}
+
+        {/* Two plans, so cap the grid at two columns and centre it rather than
+            leaving a dead third column on desktop. */}
+        <div className="mx-auto mb-12 grid max-w-4xl gap-8 md:grid-cols-2">
           {plans.map((plan) => (
             <div key={plan.name} className="relative">
               {plan.popular && (
@@ -87,7 +49,7 @@ export default function PricingPage() {
                       boxShadow: '0 0 0 3px #2D3748',
                     }}
                   >
-                    PRE-BETA POPULAR
+                    MOST POPULAR
                   </div>
                 </div>
               )}
@@ -99,14 +61,19 @@ export default function PricingPage() {
                   {plan.name}
                 </h2>
                 <p className="mb-4 font-mono text-sm text-gray-600">{plan.blurb}</p>
-                <div className="mb-6">
+                <div className="mb-6 flex flex-wrap items-baseline gap-x-2">
+                  {PREBETA_ACTIVE && (
+                    <span className="font-mono text-xl font-bold text-gray-400 line-through">
+                      {plan.standardPrice}
+                    </span>
+                  )}
                   <span
                     className="font-mono text-4xl font-bold"
                     style={{ color: plan.color }}
                   >
-                    {plan.price}
+                    {PREBETA_ACTIVE ? plan.price : plan.standardPrice}
                   </span>
-                  <span className="font-mono text-gray-600"> {plan.period}</span>
+                  <span className="font-mono text-gray-600">{plan.period}</span>
                 </div>
                 <ul className="mb-8 flex-grow space-y-3 font-mono text-sm text-gray-700">
                   {plan.features.map((f) => (
@@ -123,7 +90,7 @@ export default function PricingPage() {
                     boxShadow: '0 0 0 3px #2D3748, 0 4px 0 0 #2D3748',
                   }}
                 >
-                  Create account — grandfathered pre-beta
+                  Sign up
                 </a>
               </PixelBox>
             </div>
@@ -131,20 +98,20 @@ export default function PricingPage() {
         </div>
 
         <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-6 font-mono text-sm text-gray-600">
+          <p className="mb-6 font-mono text-sm text-gray-100">
             After you create an account, non-subscribers see a pay gate in the
             dashboard until an active subscription is on file.
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/faq"
-              className="font-mono text-sm font-bold text-brand-primary hover:underline"
+              className="font-mono text-sm font-bold text-white hover:underline"
             >
               FAQ
             </Link>
             <Link
               href="/contact"
-              className="font-mono text-sm font-bold text-brand-primary hover:underline"
+              className="font-mono text-sm font-bold text-white hover:underline"
             >
               Contact sales / support
             </Link>

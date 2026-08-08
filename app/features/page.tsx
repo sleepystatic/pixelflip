@@ -2,41 +2,56 @@ import Link from 'next/link'
 import { PixelBox } from '@/components/PixelBox'
 import { getDashboardSignupUrl } from '@/lib/site'
 
-/** Directional list — refine before launch. */
+/**
+ * Shipped behaviour only. This page previously promised webhooks, export and
+ * reporting, none of which exist — a prospect who pays for a listed feature and
+ * cannot find it is a refund and a bad review, so nothing goes here until it
+ * works. Roadmap items belong in a blog post, not on a features page.
+ */
 const featureGroups: { title: string; items: string[] }[] = [
   {
     title: 'Discovery & coverage',
     items: [
-      'Aggregate listings from multiple marketplaces into one prioritized feed.',
-      'Configurable search terms, negative keywords, and price bands per watchlist.',
-      'Location / radius awareness where the underlying marketplace exposes it.',
-      'Deduplication and freshness hints so you see new or materially changed posts first.',
+      'Scans Craigslist, OfferUp and Mercari — plus Facebook Marketplace on Pro — merging every match into one feed.',
+      'Search terms with optional minimum and maximum price — leave either blank and that side is unbounded.',
+      'Excluded words attach to a single search term, so filtering one search never touches another.',
+      'Distance radius from 5 to 100 miles, measured from your location rather than the region a marketplace guesses from your connection.',
+      'Choose local pickup, shipped items, or both. Marketplaces that cannot serve your choice are skipped before they are scanned.',
     ],
   },
   {
-    title: 'Alerts & workflows',
+    title: 'Alerts',
     items: [
-      'Email notifications when a listing crosses your filters.',
-      'Batching options to avoid alert fatigue during busy periods (pre-beta / roadmap).',
-      'Deep links straight to the original listing for quick action.',
-      'Optional webhooks or push channels as the product matures.',
+      'Email digests with photos, prices and direct links — one per scan, not one per listing.',
+      'Web push to your phone or desktop the moment a scan finishes.',
+      'Alerts only fire for listings you have never been shown, so a notification always means something genuinely new.',
+      'Separate controls for listing alerts and product updates, plus one-click unsubscribe in every email.',
+    ],
+  },
+  {
+    title: 'Speed & accuracy',
+    items: [
+      'Scans as often as every 5 minutes on Pro and every 10 on Basic; choose a slower interval whenever you want fewer interruptions.',
+      'Duplicate and repost detection by both link and title fingerprint, across all four marketplaces.',
+      'AI image filtering on Pro drops listings whose photos clearly are not the item you asked for.',
+      'Mark a listing sold or not-a-deal and it stops appearing, along with anything sharing its fingerprint.',
     ],
   },
   {
     title: 'Account & reliability',
     items: [
-      'Dashboard for saved watches, billing, and plan limits.',
-      'Structured logging and health visibility inside the app (improving during beta).',
-      'Fair-use guardrails to keep scans sustainable as we scale.',
-      'Export or reporting for serious resellers (timing varies by plan).',
+      'Dashboard with saved searches, a live scan console, and billing handled through Stripe.',
+      'Filter saved listings by marketplace or keyword and sort by newest or oldest.',
+      'Every listing shows both when the seller posted it and when PixelFlip found it — the gap tells you how much competition you have.',
+      'Saved listings are kept for 7 days and then removed automatically.',
     ],
   },
   {
     title: 'Safety, compliance & trust',
     items: [
-      'We surface public listing data; you verify every deal before you buy.',
-      'Rate limits and polite crawling practices to respect marketplaces.',
-      'Clear data retention aligned with our privacy policy.',
+      'PixelFlip surfaces public listing data. You verify every deal before you buy.',
+      'Payment details are handled entirely by Stripe and are never stored by PixelFlip.',
+      'Your search terms and alerts are private and are not shared with third parties.',
     ],
   },
 ]
@@ -56,8 +71,7 @@ export default function FeaturesPage() {
           Features
         </h1>
         <p className="mb-10 font-mono text-gray-600">
-          This is a working list of what PixelFlip is building toward. Some items
-          ship only in pre-beta or later tiers—edit freely to match reality.
+          Everything below works today. We don&apos;t list features we haven&apos;t shipped.
         </p>
 
         <div className="space-y-10">
@@ -80,7 +94,8 @@ export default function FeaturesPage() {
 
         <div className="mt-12 text-center">
           <p className="mb-4 font-mono text-gray-600">
-            Pre-beta users get a grandfathered rate at signup.
+            Pre-beta pricing is half off: Basic $4.99, Pro $9.99 a month —
+            grandfathered for as long as you stay subscribed.
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link
@@ -99,7 +114,7 @@ export default function FeaturesPage() {
                 boxShadow: '0 0 0 3px #2D3748, 0 4px 0 0 #2D3748',
               }}
             >
-              Create account
+              Sign up
             </a>
           </div>
         </div>

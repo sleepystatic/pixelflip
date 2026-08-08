@@ -12,7 +12,7 @@ export const HowItWorks: React.FC = () => {
     {
       number: '2',
       title: 'Scan 24/7',
-      description: 'Our system continuously monitors Craigslist, OfferUp, Mercari, and more. AI-powered filtering ensures quality results.',
+      description: 'Our system continuously monitors Craigslist, OfferUp, Mercari, Facebook Marketplace, and more. AI-powered filtering ensures quality results.',
       icon: '',
     },
     {
@@ -24,7 +24,7 @@ export const HowItWorks: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section id="how" className="py-20 px-4 bg-white scroll-mt-24">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-bold font-mono text-center mb-4 text-brand-dark">
           HOW IT WORKS

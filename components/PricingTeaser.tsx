@@ -12,9 +12,17 @@ export function PricingTeaser() {
         </h2>
         <p className="mb-6 font-mono text-gray-600">
           PixelFlip is a paid product—there&apos;s no free plan right now.
-          Join the waitlist for the full launch, or start a pre-beta account
-          for a <span className="font-bold text-brand-primary">grandfathered monthly rate</span>{' '}
-          while we finish core reliability.
+          Two plans: Basic at{' '}
+          <span className="font-bold text-brand-primary">
+            <span className="text-gray-400 line-through">$9.99</span> $4.99
+          </span>{' '}
+          and Pro at{' '}
+          <span className="font-bold text-brand-primary">
+            <span className="text-gray-400 line-through">$19.99</span> $9.99
+          </span>{' '}
+          a month. Join at the pre-beta price and it&apos;s{' '}
+          <span className="font-bold text-brand-primary">grandfathered</span> — you
+          keep that rate after launch.
         </p>
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
@@ -33,7 +41,7 @@ export function PricingTeaser() {
               boxShadow: '0 0 0 3px #2D3748, 0 4px 0 0 #2D3748',
             }}
           >
-            Create pre-beta account
+            Sign up
           </a>
         </div>
       </div>

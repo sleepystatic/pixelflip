@@ -13,11 +13,13 @@ export const Footer: React.FC = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
+              {/* Static here on purpose — the animated mark lives in the
+                  navbar; two spinning logos on one screen compete. */}
               <img
-                src="/logo.gif"
+                src="logo.gif"
                 alt="PixelFlip Logo"
-                width={80}
-                height={80}
+                width={44}
+                height={44}
                 style={{ imageRendering: 'pixelated' }}
               />
               <h3 className="text-xl font-bold font-mono">PixelFlip</h3>
@@ -37,6 +39,17 @@ export const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold font-mono mb-4">Product</h4>
             <ul className="space-y-2 font-mono text-sm">
+              {/* Services and Blog also live here because the mobile navbar
+                  carries no page links — the footer is the only way to reach
+                  them on a phone. */}
+              <li>
+                <Link
+                  href="/services"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Services
+                </Link>
+              </li>
               <li>
                 <Link
                   href="/features"
@@ -51,6 +64,14 @@ export const Footer: React.FC = () => {
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   Pricing
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/blog"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Blog
                 </Link>
               </li>
               <li>
@@ -125,11 +146,12 @@ export const Footer: React.FC = () => {
             © {currentYear} PixelFlip. All rights reserved.
           </p>
 
+          {/* .app, not .com — the domain the mailbox actually exists on. */}
           <a
-            href="mailto:support@pixelflip.com"
+            href="mailto:support@pixelflip.app"
             className="font-mono text-sm font-bold text-gray-400 hover:text-white transition-colors"
           >
-            support@pixelflip.com
+            support@pixelflip.app
           </a>
         </div>
       </div>

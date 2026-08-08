@@ -47,25 +47,14 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
-  try {
-    const { data, error } = await supabase
-      .from('waitlist')
-      .select('email, created_at')
-      .order('created_at', { ascending: false });
-
-    if (error) throw error;
-
-    return NextResponse.json({
-      emails: data,
-      count: data?.length || 0
-    });
-    
-  } catch (error) {
-    console.error('Error:', error);
-    return NextResponse.json(
-      { error: 'Server error' },
-      { status: 500 }
-    );
-  }
-}
+// There is deliberately no GET handler.
+//
+// This route used to export every signup email to anyone who requested the URL.
+// Gating it behind a shared secret would still mean shipping a public endpoint
+// that returns PII, with a token living in a header someone can copy — all to
+// duplicate something the Supabase dashboard already does behind real auth.
+// To read or export the list, use the Supabase table editor, or run
+// `node scripts/export-emails.js` locally, which uses the service key from the
+// environment and never exposes a route.
+//
+// Removing GET does not affect the client above: POST owns the same connection.

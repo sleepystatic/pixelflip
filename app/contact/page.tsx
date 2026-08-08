@@ -4,12 +4,14 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { PixelButton } from '@/components/PixelButton'
 import { PixelBox } from '@/components/PixelBox'
+import { PAGE_BACKDROP, PIXEL_GRID } from '@/lib/backgrounds'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
+    website: '',
   })
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -32,8 +34,10 @@ export default function ContactPage() {
       if (!response.ok) {
         if (data.error === 'mail_not_configured') {
           setError(
-            'Contact email is not configured on the server yet. Set Mailgun env vars (see .env.example) or email support@pixelflip.com.'
+            'Contact email is not configured on the server yet. Set Mailgun env vars (see .env.example) or email support@pixelflip.app.'
           )
+        } else if (data.error === 'rate_limited') {
+          setError('Too many messages sent recently. Please wait a few minutes and try again.')
         } else {
           setError('Could not send your message. Please try again or email us directly.')
         }
@@ -41,7 +45,7 @@ export default function ContactPage() {
       }
 
       setSubmitted(true)
-      setFormData({ name: '', email: '', message: '' })
+      setFormData({ name: '', email: '', message: '', website: '' })
     } catch {
       setError('Network error. Please try again.')
     } finally {
@@ -50,14 +54,28 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen px-4 py-20">
-      <div className="max-w-2xl mx-auto">
-        <p className="mb-4 font-mono text-sm font-bold text-brand-primary">
+    <div
+      className="relative min-h-screen overflow-hidden px-4 py-20"
+      style={{ background: PAGE_BACKDROP.contact }}
+    >
+      {/* The hero's pixel grid, reused here so the one page that is mostly a
+          form has some texture behind it. Non-interactive layer. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-10"
+        style={{ backgroundImage: PIXEL_GRID }}
+      />
+
+      <div className="relative z-10 max-w-2xl mx-auto">
+        <p className="mb-4 font-mono text-sm font-bold text-white">
           <Link href="/" className="hover:underline">
             ← Home
           </Link>
         </p>
-        <h1 className="text-5xl font-bold font-mono mb-8 text-brand-dark text-center">
+        <h1
+          className="text-5xl font-bold font-mono mb-8 text-center"
+          style={{ color: '#2D3748', textShadow: '4px 4px 0 rgba(118,75,162,0.3)' }}
+        >
           Contact Us
         </h1>
 
@@ -74,6 +92,18 @@ export default function ContactPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Honeypot: hidden from humans, useful against bots */}
+              <input
+                type="text"
+                value={formData.website}
+                onChange={(e) =>
+                  setFormData({ ...formData, website: e.target.value })
+                }
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
+              />
               {error && (
                 <p className="font-mono text-sm font-bold text-red-700 bg-red-50 p-4 border-2 border-red-200">
                   {error}

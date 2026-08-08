@@ -6,10 +6,11 @@ node_modules/
 out/
 
 # Environment variables (SENSITIVE!)
-.env
-.env.local
-.env.production
-.env.development
+# `.env*` rather than an explicit list: a backup like .env.local.backup-20260807
+# holds every secret from the file it copied, and none of the exact-name
+# patterns below match it. GitHub push protection caught exactly that once.
+.env*
+!.env.example
 
 # Database files (CONTAINS USER EMAILS!)
 *.db

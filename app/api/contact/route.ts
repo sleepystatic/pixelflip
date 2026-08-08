@@ -1,7 +1,35 @@
 import { NextResponse } from 'next/server'
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
+const RATE_LIMIT_MAX = 5
+const contactRateLimit = new Map<string, number[]>()
+
+function getClientKey(request: Request): string {
+  const forwarded = request.headers.get('x-forwarded-for') ?? ''
+  const ip = forwarded.split(',')[0]?.trim() || 'unknown-ip'
+  const ua = request.headers.get('user-agent') ?? 'unknown-ua'
+  return `${ip}:${ua}`
+}
+
+function isRateLimited(key: string): boolean {
+  const now = Date.now()
+  const windowStart = now - RATE_LIMIT_WINDOW_MS
+  const previous = contactRateLimit.get(key) ?? []
+  const recent = previous.filter((ts) => ts > windowStart)
+
+  if (recent.length >= RATE_LIMIT_MAX) {
+    contactRateLimit.set(key, recent)
+    return true
+  }
+
+  recent.push(now)
+  contactRateLimit.set(key, recent)
+  return false
+}
+
 export async function POST(request: Request) {
-  let body: { name?: string; email?: string; message?: string }
+  let body: { name?: string; email?: string; message?: string; website?: string }
   try {
     body = await request.json()
   } catch {
@@ -11,9 +39,25 @@ export async function POST(request: Request) {
   const name = String(body.name ?? '').trim()
   const email = String(body.email ?? '').trim()
   const message = String(body.message ?? '').trim()
+  const website = String(body.website ?? '').trim()
+
+  // Honeypot field for bots: real users never fill this.
+  if (website) {
+    return NextResponse.json({ ok: true })
+  }
+
+  if (isRateLimited(getClientKey(request))) {
+    return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
+  }
 
   if (!name || !email || !message) {
     return NextResponse.json({ error: 'missing_fields' }, { status: 400 })
+  }
+  if (name.length > 120 || message.length > 4000) {
+    return NextResponse.json({ error: 'payload_too_large' }, { status: 400 })
+  }
+  if (!EMAIL_REGEX.test(email)) {
+    return NextResponse.json({ error: 'invalid_email' }, { status: 400 })
   }
 
   const apiKey = process.env.MAILGUN_API_KEY
